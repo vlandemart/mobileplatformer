@@ -1,0 +1,122 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class EnemyCharger : Enemy {
+
+	[SerializeField]
+	private float chargingSpeed = 5f;
+    [SerializeField]
+    private float knockbackForce = 50f;
+    [SerializeField]
+	private bool chargeEnded = true;
+	[SerializeField]
+	private float ignoreTime = 1f;
+
+	private bool ignorePlayer = false;
+	private bool attacking = false;
+
+	protected override void Start ()
+	{
+		base.Start ();
+        transform.GetChild(0).GetComponent<Collider2D>();
+	}
+
+	void Update(){
+		if (!PlayerIsAhead () && !attacking) {
+			SimpleMovement ();
+		} else if (Mathf.Abs (transform.position.x - player.transform.position.x) > attackRange && !attacking) {
+			WalkTowardsPlayer ();
+		} else if(!attacking) {
+			StartCoroutine (Attack ());
+		}
+	}
+
+	void SimpleMovement(){
+        CheckGrounded ();
+		myAnim.SetBool ("Walking", true);
+		if ((!isGrounded && !rotated) || (!WayForwardIsClear() && !rotated)) {
+			rotated = true;
+			transform.localScale = new Vector3 (transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
+		} else if (canMove) {
+			transform.position = new Vector3(transform.position.x + (transform.localScale.x * speed * Time.deltaTime), transform.position.y);
+		}
+		if (isGrounded) {
+			rotated = false;
+		}
+	}
+
+	void WalkTowardsPlayer(){
+		myAnim.SetBool ("Walking", true);
+
+        if (canMove)
+        {
+            if (transform.position.x < player.transform.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+
+            if (Mathf.Abs(transform.position.x - player.transform.position.x) > attackRange)
+            {
+                transform.position = new Vector3(transform.position.x + (transform.localScale.x * speed * Time.deltaTime), transform.position.y);
+            }
+            else
+            {
+				myAnim.SetBool("Walking", false);
+            }
+        }
+	}
+
+	IEnumerator Attack(){
+		attacking = true;
+		if (chargeEnded) {
+			myAnim.SetBool ("Taunting", true);
+			yield return new WaitForSeconds (1f);
+			chargeEnded = false;
+			myAnim.SetBool ("Taunting", false);
+			myAnim.SetBool ("Walking", true);
+		}
+		if (WayForwardIsClear ()) {
+			transform.position = new Vector3 (transform.position.x + (transform.localScale.x * chargingSpeed * Time.deltaTime), transform.position.y);
+		} else {
+			chargeEnded = true;
+		}
+
+		if (chargeEnded) {
+			myAnim.SetBool ("Walking", false);
+			yield return new WaitForSeconds (1f);
+			attacking = false;
+		} else {
+			yield return null;
+			StartCoroutine (Attack ());
+		}
+	}
+
+	protected override void Attack (PlayerMovement playerM)
+	{
+
+        if (!ignorePlayer && !chargeEnded)
+        {
+            Vector2 knockBackVector;
+            if (playerM.transform.position.x > transform.position.x)
+                knockBackVector = new Vector2(2, 1);
+            else
+                knockBackVector = new Vector2(-2, 1);
+            //the problem with move function is that it's applying force vector for the current frame
+            //and the impact is a continious process
+            playerM.GetComponent<ImpactReceiver>().AddImpact(knockBackVector, knockbackForce);
+            StartCoroutine(IgnorePlayer());
+        }
+        //playerM.gameObject.GetComponent<Rigidbody2D> ().AddForce (knockBackVector*150);
+    }
+
+    IEnumerator IgnorePlayer()
+    {
+        ignorePlayer = true;
+        yield return new WaitForSeconds(ignoreTime);
+        ignorePlayer = false;
+    }
+}

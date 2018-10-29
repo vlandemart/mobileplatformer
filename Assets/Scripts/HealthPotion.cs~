@@ -1,0 +1,12 @@
+﻿public class HealthPotion : Pickupable {
+	private int healAmount = 1;
+
+	public override void PickUp (PlayerMovement player)
+	{
+		if (player.HP < player.MaxHP) {
+			player.HP += healAmount;
+			OnPickUp ();
+			Destroy (this.gameObject);
+		}
+	}
+}

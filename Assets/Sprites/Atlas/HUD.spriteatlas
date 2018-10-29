@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: HUD
+  m_EditorData:
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 256
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 0
+    platformSettings: []
+    packingParameters:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    packedHash:
+      serializedVersion: 2
+      Hash: d1b10de08e793bc0f3075b56c7bdf18c
+    variantMultiplier: 1
+    bindAsDefault: 1
+    finalFormat: 4
+    hashString: d1b10de08e793bc0f3075b56c7bdf18c
+    totalSpriteSurfaceArea: 10496
+    packables:
+    - {fileID: 102900000, guid: 4b40ad8e5282915478ca0ee3f84c7920, type: 3}
+    - {fileID: 102900000, guid: 3403ec520ae53734994e59af7cf80107, type: 3}
+    - {fileID: 102900000, guid: 68baa3f336ca06143ab48d1062f324bc, type: 3}
+    packedSpriteRenderDataKeys:
+    - 2ffced919669dd5438e817a05b5369c0: 21300006
+    - 2ffced919669dd5438e817a05b5369c0: 21300004
+    - 2ffced919669dd5438e817a05b5369c0: 21300002
+    - 2ffced919669dd5438e817a05b5369c0: 21300000
+    - 60b4e0381a1804c4e9f45b5c33534a87: 21300000
+    - 00ec675d7927b574a96bdfb16c83ae36: 21300000
+    - d2cc17a901bb7f74890cd42b461dbe9a: 21300000
+    - f3750ed7be81e3b4a8771a67106a045a: 21300000
+    - 59023ad435e01eb47902c1346e990676: 21300000
+    - b6ffc1107aa816649a0407cfcce7f3db: 21300000
+    - 9584fa334c3afbb41aa847f9fb6255b8: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300006, guid: 2ffced919669dd5438e817a05b5369c0, type: 3}
+  - {fileID: 21300004, guid: 2ffced919669dd5438e817a05b5369c0, type: 3}
+  - {fileID: 21300002, guid: 2ffced919669dd5438e817a05b5369c0, type: 3}
+  - {fileID: 21300000, guid: 2ffced919669dd5438e817a05b5369c0, type: 3}
+  - {fileID: 21300000, guid: 60b4e0381a1804c4e9f45b5c33534a87, type: 3}
+  - {fileID: 21300000, guid: 00ec675d7927b574a96bdfb16c83ae36, type: 3}
+  - {fileID: 21300000, guid: d2cc17a901bb7f74890cd42b461dbe9a, type: 3}
+  - {fileID: 21300000, guid: f3750ed7be81e3b4a8771a67106a045a, type: 3}
+  - {fileID: 21300000, guid: 59023ad435e01eb47902c1346e990676, type: 3}
+  - {fileID: 21300000, guid: b6ffc1107aa816649a0407cfcce7f3db, type: 3}
+  - {fileID: 21300000, guid: 9584fa334c3afbb41aa847f9fb6255b8, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - buttons_3
+  - buttons_2
+  - buttons_1
+  - buttons_0
+  - frame
+  - bullet
+  - simple_frame
+  - wood-panel
+  - thin_frame
+  - gear
+  - heart
+  m_Tag: HUD
+  m_IsVariant: 0

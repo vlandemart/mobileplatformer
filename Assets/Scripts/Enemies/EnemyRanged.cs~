@@ -1,0 +1,85 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class EnemyRanged : Enemy {
+
+	[SerializeField]
+	private GameObject projectile = null;
+	[SerializeField]
+	private float secondsToAttack = 2f;
+
+	private bool attacking = false;
+	private float attackTimer = 0f;
+
+	protected override void Start () {
+		base.Start ();
+    }
+
+	void Update(){
+		if (!PlayerIsAhead () && !attacking) {
+			SimpleMovement ();
+		} else if (Mathf.Abs (transform.position.x - player.transform.position.x) > attackRange && !attacking) {
+			WalkTowardsPlayer ();
+		} else if (!attacking) {
+			Attack ();
+		} else {
+			if (attackTimer >= 2f) {
+				attackTimer = 0;
+				attacking = false;
+			} else {
+				attackTimer += Time.deltaTime;
+			}
+		}
+	}
+
+	void SimpleMovement(){
+		CheckGrounded ();
+		myAnim.SetBool ("Walking", true);
+        if (canMove)
+        {
+            if ((!isGrounded && !rotated) || (!WayForwardIsClear() && !rotated))
+            {
+                rotated = true;
+                transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x + (transform.localScale.x * speed * Time.deltaTime), transform.position.y);
+            }
+        }		
+		if (isGrounded) {
+			rotated = false;
+		}
+	}
+		
+	void WalkTowardsPlayer(){
+		myAnim.SetBool ("Walking", true);
+        if (canMove)
+        {
+            if (transform.position.x < player.transform.position.x)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+
+            if (Mathf.Abs(transform.position.x - player.transform.position.x) > attackRange)
+            {
+                transform.position = new Vector3(transform.position.x + (transform.localScale.x * speed * Time.deltaTime), transform.position.y);
+            }
+        }
+	}
+
+	void Attack(){
+		myAnim.SetBool("Walking", false);
+		attacking = true;
+		myAnim.SetBool ("Attack", true);
+	}
+
+	public void Shoot(){
+		Projectile arrow = Instantiate (projectile, transform.position, Quaternion.identity).GetComponent<Projectile>();
+		arrow.SetStats (damage, transform.position, transform.localScale);
+	}
+}

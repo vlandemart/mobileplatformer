@@ -1,0 +1,80 @@
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class GameUIHandler : MonoBehaviour {
+	[SerializeField]
+	private GameObject gameHUD = null;
+	[SerializeField]
+	private GameObject deathScreen = null;
+	[SerializeField]
+	private GameObject pauseMenu = null;
+    [SerializeField]
+    private GameObject finishedLevelScreen = null;
+    [SerializeField]
+    private PlayerMovement player = null;
+    [SerializeField]
+    private Text finishedLevelScore = null;
+
+    private int coins;
+
+	private void Start(){
+		Time.timeScale = 1f;
+		gameHUD.SetActive (true);
+		deathScreen.SetActive (false);
+		pauseMenu.SetActive (false);
+	}
+
+	#region Death screen
+
+	public void DeathScreen(){
+		gameHUD.SetActive (false);
+		deathScreen.SetActive (true);
+		Time.timeScale = 0.1f;
+	}
+
+	public void _Restart(){
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+	}
+
+	public void _BackToMenu(){
+		SceneManager.LoadScene (0);
+	}
+	#endregion
+
+	#region Pause screen
+
+	public void _Pause()
+	{
+		pauseMenu.SetActive (true);
+		gameHUD.SetActive (false);
+		Time.timeScale = 0f;
+	}
+
+	public void _Resume(){
+		gameHUD.SetActive (true);
+		pauseMenu.SetActive (false);
+		Time.timeScale = 1f;
+	}
+    #endregion
+
+    #region Finish screen
+
+    public void _Finish()
+    {
+        finishedLevelScreen.SetActive(true);
+        finishedLevelScore.text = "Score: " + player.Coins;
+        gameHUD.SetActive(false);
+        Time.timeScale = 0f;
+    }
+
+	public void _Continue(){
+		if (SceneManager.sceneCountInBuildSettings > SceneManager.GetActiveScene ().buildIndex + 1) {
+			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex + 1);
+		} else {
+			_BackToMenu ();
+		}
+	}
+
+    #endregion
+}
